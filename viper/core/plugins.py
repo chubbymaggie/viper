@@ -1,11 +1,15 @@
+# This file is part of Viper - https://github.com/viper-framework/viper
+# See the file 'LICENSE' for copying permission.
+
 import pkgutil
 import inspect
 
+from viper.common.out import print_warning
 from viper.common.abstracts import Module
 
 def load_modules():
     # Import modules package.
-    import modules
+    import viper.modules as modules
 
     plugins = dict()
 
@@ -19,6 +23,7 @@ def load_modules():
         try:
             module = __import__(module_name, globals(), locals(), ['dummy'], -1)
         except ImportError as e:
+            print_warning("Something wrong happened while importing the module {0}: {1}".format(module_name, e))
             continue
 
         # Walk through all members of currently imported modules.
